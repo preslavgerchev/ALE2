@@ -286,3 +286,7 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+AutomataLogicEngineering2/*.dot
+AutomataLogicEngineering2/*.png
+AutomataLogicEngineering2/*.txt
