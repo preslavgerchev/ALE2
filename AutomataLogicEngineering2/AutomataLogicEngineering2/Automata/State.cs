@@ -6,15 +6,15 @@
     {
         public string StateName { get; }
 
-        public List<Transition> Transitions { get; }
+        public IList<Transition> Transitions { get; }
 
         public bool IsFinal { get; set; }
 
-        public State(string stateName, List<Transition> transitions, bool isFinal)
+        public State(string stateName)
         {
             this.StateName = stateName;
-            this.Transitions = transitions;
-            this.IsFinal = isFinal;
+            this.Transitions = new List<Transition>();
+            this.IsFinal = false;
         }
     }
 }

@@ -45,10 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Automata\Alphabet.cs" />
     <Compile Include="Automata\AutomataGraphCreator.cs" />
     <Compile Include="Automata\Transition.cs" />
     <Compile Include="Automata\FiniteAutomata.cs" />
     <Compile Include="Automata\State.cs" />
+    <Compile Include="Exceptions\InvalidCharException.cs" />
+    <Compile Include="Exceptions\InvalidStateException.cs" />
+    <Compile Include="Parser\CommentParser.cs" />
+    <Compile Include="Parser\FinalStatesParser.cs" />
+    <Compile Include="Parser\TransitionsParser.cs" />
+    <Compile Include="Parser\AlphabetParser.cs" />
+    <Compile Include="Parser\AllStatesParser.cs" />
     <Compile Include="Parser\FiniteAutomataParser.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +66,7 @@
     <Compile Include="AutomataLogicEngineering2Form.Designer.cs">
       <DependentUpon>AutomataLogicEngineering2Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Parser\IPartialParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AutomataLogicEngineering2Form.resx">

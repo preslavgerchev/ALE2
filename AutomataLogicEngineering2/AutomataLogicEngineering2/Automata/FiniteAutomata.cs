@@ -5,35 +5,37 @@
 
     public class FiniteAutomata
     {
-        public string Comment { set; get; }
+        public string Comment { get; }
 
-        public List<char> Alphabet { set; get; }
+        public Alphabet Alphabet { get; }
 
-        // TODO change this to State class.
-        public List<State> States { get; set; }
+        public IReadOnlyList<State> States { get; }
 
-        public bool IsDfa { get; set; }
+        public bool IsDfa { get; }
 
         public bool IsNdfa => !this.IsDfa;
 
         // TODO add c-tor parameters.
-        public FiniteAutomata()
+        public FiniteAutomata(string comment, Alphabet alphabet, IReadOnlyList<State> states)
         {
-
+            this.Comment = comment;
+            this.Alphabet = alphabet;
+            this.States = states;
+            this.IsDfa = this.DetermineDfa();
         }
 
-        public void DetermineDfa()
+        private bool DetermineDfa()
         {
             foreach (var state in this.States)
             {
-                if (this.Alphabet
-                    .Any(ch => state.Transitions.Where(t => !t.IsEpsilon).Count(y => y.TransitionChar == ch) != 1))
+                // If the amount of distinct transitions, excluding the epsilon one is different than the alphabet 
+                // then we do not have  DFA.
+                if (state.Transitions.Where(t => !t.IsEpsilon).Distinct().Count() != this.Alphabet.AlphabetChars.Count)
                 {
-                    this.IsDfa = false;
-                    return;
+                    return false;
                 }
             }
-            this.IsDfa = true;
+            return true;
         }
     }
 }
