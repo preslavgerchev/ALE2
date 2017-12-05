@@ -2,11 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Utils;
 
     public class Alphabet
     {
-        private const char Epsilon = 'ε';
-
         public IReadOnlyList<char> AlphabetChars { get; }
 
         public Alphabet(IReadOnlyList<char> alphabetChars)
@@ -16,7 +15,7 @@
 
         public bool Contains(char alphabetChar)
         {
-            return AlphabetChars.Concat(new List<char>() {Epsilon}).Any(x => x == alphabetChar);
+            return AlphabetChars.Concat(new List<char>() { Epsilon.Letter }).Any(x => x == alphabetChar);
         }
     }
 }

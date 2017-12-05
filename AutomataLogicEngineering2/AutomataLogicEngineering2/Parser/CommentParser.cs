@@ -9,10 +9,11 @@
             var comment = string.Empty;
             foreach (var line in lines)
             {
-                if (!line.StartsWith("#")) continue;
-
-                comment = line.Split('#')[1];
-                break;
+                if (line.StartsWith("#"))
+                {
+                    comment = line.Split('#')[1];
+                    break;
+                }
             }
 
             return comment;

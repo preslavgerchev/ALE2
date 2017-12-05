@@ -52,8 +52,9 @@
     <Compile Include="Automata\State.cs" />
     <Compile Include="Exceptions\InvalidCharException.cs" />
     <Compile Include="Exceptions\InvalidStateException.cs" />
+    <Compile Include="Extensions\StateExtensions.cs" />
+    <Compile Include="Utils\Epsilon.cs" />
     <Compile Include="Parser\CommentParser.cs" />
-    <Compile Include="Parser\FinalStatesParser.cs" />
     <Compile Include="Parser\TransitionsParser.cs" />
     <Compile Include="Parser\AlphabetParser.cs" />
     <Compile Include="Parser\AllStatesParser.cs" />

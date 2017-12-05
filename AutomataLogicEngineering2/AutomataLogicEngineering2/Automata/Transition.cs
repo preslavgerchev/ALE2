@@ -1,12 +1,11 @@
 ﻿namespace AutomataLogicEngineering2.Automata
 {
     using System;
+    using Utils;
 
     public class Transition : IEquatable<Transition>
     {
-        private const char Epsilon = 'ε';
-
-        public bool IsEpsilon => this.TransitionChar == Epsilon;
+        public bool IsEpsilon => this.TransitionChar == Epsilon.Letter;
 
         public char TransitionChar { get; }
 
@@ -16,7 +15,7 @@
 
         public Transition(char transitionChar, State transitionFrom, State transitionTo)
         {
-            this.TransitionChar = transitionChar == '_' ? Epsilon : transitionChar;
+            this.TransitionChar = transitionChar;
             this.TransitionFrom = transitionFrom;
             this.TransitionTo = transitionTo;
         }

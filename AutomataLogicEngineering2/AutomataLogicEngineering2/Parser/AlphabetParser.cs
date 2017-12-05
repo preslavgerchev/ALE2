@@ -12,11 +12,14 @@
             var alphabet = new List<char>();
             foreach (var line in lines)
             {
-                if (!line.StartsWith("alphabet")) continue;
-                alphabet = line.Split(':')[1].ToCharArray().Where(c => !char.IsWhiteSpace(c)).ToList();
-                break;
+                if (line.StartsWith("alphabet"))
+                {
+                    alphabet = line.Split(':')[1].ToCharArray().Where(c => !char.IsWhiteSpace(c)).ToList();
+                    break;
+                }
             }
 
+            // TODO empty alphabet not available?
             return alphabet.Any() ? new Alphabet(alphabet) : throw new Exception();
         }
     }

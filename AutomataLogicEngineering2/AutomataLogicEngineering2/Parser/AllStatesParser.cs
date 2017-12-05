@@ -4,24 +4,28 @@
     using System.Collections.Generic;
     using Automata;
 
-    public class AllStatesParser : IPartialParser<List<State>>
+    public class StatesParser : IPartialParser<List<State>>
     {
         public List<State> Parse(List<string> lines)
         {
-            var states = new List<State>();
+            var allStateNames = new List<string>();
+            var finalStatesNames = new List<string>();
             foreach (var line in lines)
             {
-                if (!line.StartsWith("states")) continue;
+                if (line.StartsWith("states"))
+                {
+                    allStateNames = line.Split(':')[1].Split(',').ToList();
+                }
 
-                var allStates = line.Split(':')[1];
-                states = allStates
-                    .Split(',')
-                    .Select(x => new State(x))
-                    .ToList();
-                break;
+                if (line.StartsWith("final"))
+                {
+                    finalStatesNames = line.Split(':')[1].Split(',').ToList();
+                }
             }
 
-            return states;
+            return allStateNames
+                .Select((stateName, i) => new State(stateName, i == 0, finalStatesNames.Any(x => x == stateName)))
+                .ToList();
         }
     }
 }
