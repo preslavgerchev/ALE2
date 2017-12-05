@@ -1,4 +1,6 @@
-﻿namespace AutomataLogicEngineering2.Automata
+﻿using AutomataLogicEngineering2.Extensions;
+
+namespace AutomataLogicEngineering2.Automata
 {
     using System;
     using System.Diagnostics;
@@ -70,6 +72,7 @@
         /// <param name="node">The node.</param>
         private static void WriteStates(TextWriter writer, FiniteAutomata automata)
         {
+            writer.WriteLine($"\"\" [shape=none]");
             foreach (var state in automata.States)
             {
                 writer.WriteLine($"\"{state.StateName}\" [shape= {(state.IsFinal ? "doublecircle" : "circle")}]");
@@ -84,6 +87,7 @@
         /// <param name="node">The node.</param>
         private static void WriteTransitions(TextWriter writer, FiniteAutomata automata)
         {
+            writer.WriteLine($"\"\" -> \"{automata.States.GetInitialState().StateName}\"");
             foreach (var state in automata.States)
             {
                 foreach (var transition in state.Transitions)
