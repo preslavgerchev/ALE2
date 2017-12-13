@@ -9,11 +9,12 @@
 
     public class TransitionsParser : IPartialParser<List<Transition>>
     {
+        // TODO underscores
         private readonly Regex regex = new Regex("[A-Za-z0-9]*,[A-Za-z_]{1}-->[A-Za-z0-0]*");
         private readonly IReadOnlyList<State> states;
         private readonly Alphabet alphabet;
 
-        public TransitionsParser(IReadOnlyList<State> states,Alphabet alphabet)
+        public TransitionsParser(IReadOnlyList<State> states, Alphabet alphabet)
         {
             this.states = states;
             this.alphabet = alphabet;
@@ -26,12 +27,11 @@
             {
                 var line = lines[index];
                 if (!line.StartsWith("transitions:")) continue;
-
-                // TODO explain why + 1 and -2. explain whitespace parsing etc.
-                var transitionLines = lines.GetRange(index + 1, lines.Count - index - 2).ToList();
-                foreach (var transitionLine in transitionLines)
+                var nextIndex = index + 1;
+                line = lines[nextIndex];
+                while (line != "end.")
                 {
-                    var cleanTransitionLine = new string(transitionLine.Where(c => !char.IsWhiteSpace(c)).ToArray());
+                    var cleanTransitionLine = new string(line.Where(c => !char.IsWhiteSpace(c)).ToArray());
                     if (regex.Match(cleanTransitionLine).Success)
                     {
                         var parsedLine = cleanTransitionLine.Replace("-->", ",");
@@ -43,11 +43,11 @@
 
                         if (stateTo == null)
                         {
-                            throw new InvalidStateException($"State '{elements[0]}' does not exist.");
+                            throw new InvalidStateException($"State '{elements[2]}' does not exist.");
                         }
                         if (stateFrom == null)
                         {
-                            throw new InvalidStateException($"State '{elements[2]}' does not exist.");
+                            throw new InvalidStateException($"State '{elements[0]}' does not exist.");
                         }
                         if (!this.alphabet.Contains(letter))
                         {
@@ -55,10 +55,10 @@
                         }
                         transitions.Add(new Transition(letter, stateFrom, stateTo));
                     }
+                    line = lines[++nextIndex];
                 }
                 break;
             }
-
             return transitions;
         }
     }

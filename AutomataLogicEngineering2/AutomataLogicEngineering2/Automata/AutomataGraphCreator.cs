@@ -74,7 +74,7 @@ namespace AutomataLogicEngineering2.Automata
         {
             writer.WriteLine($"\"\" [shape=none]");
             foreach (var state in automata.States)
-            {
+            {   
                 writer.WriteLine($"\"{state.StateName}\" [shape= {(state.IsFinal ? "doublecircle" : "circle")}]");
             }
         }

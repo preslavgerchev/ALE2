@@ -50,9 +50,12 @@
     <Compile Include="Automata\Transition.cs" />
     <Compile Include="Automata\FiniteAutomata.cs" />
     <Compile Include="Automata\State.cs" />
+    <Compile Include="Automata\Word.cs" />
     <Compile Include="Exceptions\InvalidCharException.cs" />
     <Compile Include="Exceptions\InvalidStateException.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StateExtensions.cs" />
+    <Compile Include="Parser\TestWordsParser.cs" />
     <Compile Include="Utils\Epsilon.cs" />
     <Compile Include="Parser\CommentParser.cs" />
     <Compile Include="Parser\TransitionsParser.cs" />

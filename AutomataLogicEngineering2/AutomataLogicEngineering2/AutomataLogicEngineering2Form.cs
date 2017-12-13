@@ -2,6 +2,8 @@
 {
     using System;
     using System.Drawing;
+    using System.IO;
+    using System.Linq;
     using System.Windows.Forms;
     using Automata;
 
@@ -16,20 +18,30 @@
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.automata = Parser.FiniteAutomataParser.ParseAutomata("../../../test.txt");
+            var lines = File.ReadLines("../../../test.txt");
+            this.automata = Parser.FiniteAutomataParser.CreateAutomata(lines.ToList());
             var file = AutomataGraphCreator.CreateNodeGraphImage(automata);
             this.automataPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             this.automataPictureBox.ImageLocation = file;
-            label1.ForeColor = automata.IsDfa ? Color.Green : Color.Red;
-            label2.ForeColor = automata.IsNdfa ? Color.Green : Color.Red;
-            label4.Text = this.automata.Comment;
+            this.dfaLbl.ForeColor = automata.IsDfa ? Color.Green : Color.Red;
+            this.dfaCheckBox.Checked = automata.IsDfa;
+            this.ndfaLbl.ForeColor = automata.IsNdfa ? Color.Green : Color.Red;
+            this.ndfaCheckBox.Checked = automata.IsNdfa;
+            this.automataCommentLblTxt.Text = this.automata.Comment;
+            this.testWordsListBox.Items.Clear();
+            foreach (var testWord in automata.TestWords)
+            {
+                this.testWordsListBox.Items.Add(
+                    $"{testWord}, should be accepted: {(testWord.ShouldBeAccepted ? "yes" : "no")}, accepted: {(testWord.IsAccepted ? "yes" : "no")}");
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             var word = this.textBox1.Text;
-            var wordAccepted = this.automata.AcceptsWord(word);
-            label3.ForeColor = wordAccepted ? Color.Green : Color.Red;
+            var wordAccepted = this.automata.AcceptsWord(new Word(word));
+            this.acceptedLbl.ForeColor = wordAccepted ? Color.Green : Color.Red;
+            this.acceptedCheckbox.Checked = wordAccepted;
         }
     }
 }
