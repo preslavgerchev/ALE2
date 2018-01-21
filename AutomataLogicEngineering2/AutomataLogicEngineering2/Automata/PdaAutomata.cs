@@ -121,7 +121,7 @@
         {
             // Try to find epsilon transitions where either there is a pop symbol, matching the top one in the stack
             // or both pop and push are empty. These transitions can be used to move 'freely' to another state without
-            // moifying the state, excepting for clearing it.
+            // modifying the state, excepting for clearing it.
             var pdaTransitions = currentState.Transitions.Select(x => x as PdaTransition).ToList();
             var possibleEpsilonTransition = pdaTransitions.FirstOrDefault(x =>
                 x.TransitionChar == Epsilon.Letter

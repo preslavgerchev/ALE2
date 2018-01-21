@@ -64,6 +64,7 @@
             foreach (var letter in word.Letters)
             {
                 states = this.GetPossibleStates(states, letter);
+                // If DFA do not try to find epsilon closures as there are no existing ones.
                 if (this.IsDfa) continue;
                 states = this.GetPossibleEpsilonStates(states);
             }
