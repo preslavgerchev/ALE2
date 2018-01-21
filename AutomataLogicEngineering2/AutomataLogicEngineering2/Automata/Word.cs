@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Utils;
 
     public class Word
     {
@@ -15,8 +16,8 @@
 
         public Word(string word, bool shouldBeAccepted = false)
         {
-            this.WordString = word;
-            this.Letters = word.Replace("_", string.Empty).ToCharArray().ToList();
+            this.Letters = word.Select(x => x.ParseChar()).Where(x => x != Epsilon.Letter).ToList();
+            this.WordString = new string(this.Letters.ToArray());
             this.ShouldBeAccepted = shouldBeAccepted;
         }
 

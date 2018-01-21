@@ -10,7 +10,10 @@
 
         public Alphabet(IReadOnlyList<char> alphabetChars)
         {
-            this.AlphabetChars = alphabetChars;
+            this.AlphabetChars = alphabetChars
+                .Select(x => x.ParseChar())
+                .Where(x => char.IsLetter(x) && x != Epsilon.Letter)
+                .ToList();
         }
 
         public bool Contains(char alphabetChar)

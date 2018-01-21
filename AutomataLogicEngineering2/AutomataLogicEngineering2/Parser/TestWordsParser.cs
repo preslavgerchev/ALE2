@@ -1,6 +1,4 @@
-﻿using AutomataLogicEngineering2.Utils;
-
-namespace AutomataLogicEngineering2.Parser
+﻿namespace AutomataLogicEngineering2.Parser
 {
     using System.Collections.Generic;
     using Automata;

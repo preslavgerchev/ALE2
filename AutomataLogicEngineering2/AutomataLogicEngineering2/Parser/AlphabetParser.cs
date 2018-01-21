@@ -19,8 +19,7 @@
                 }
             }
 
-            // TODO empty alphabet not available?
-            return alphabet.Any() ? new Alphabet(alphabet) : throw new Exception();
+            return alphabet.Any() ? new Alphabet(alphabet) : throw new Exception("Cannot have an empty alphabet.");
         }
     }
 }

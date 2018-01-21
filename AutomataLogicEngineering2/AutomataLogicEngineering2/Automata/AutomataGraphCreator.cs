@@ -93,7 +93,7 @@ namespace AutomataLogicEngineering2.Automata
                 foreach (var transition in state.Transitions)
                 {
                     writer.WriteLine(
-                        $"\"{state.StateName}\" -> \"{transition.TransitionTo.StateName}\" [label = {transition.TransitionChar}]");
+                        $"\"{state.StateName}\" -> \"{transition.TransitionTo.StateName}\" [label = \"{transition.GetTextForGraphLabel()}\"]");
                 }
             }
         }

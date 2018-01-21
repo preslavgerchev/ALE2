@@ -32,16 +32,18 @@
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return this.Equals((Transition) obj);
+            return this.Equals((Transition)obj);
         }
 
         public override int GetHashCode()
         {
-            // TODO ?
             unchecked
             {
                 return (TransitionChar.GetHashCode() * 397) ^ (TransitionTo != null ? TransitionTo.GetHashCode() : 0);
             }
         }
+
+        public virtual string GetTextForGraphLabel() => this.TransitionChar.ToString();
     }
 }
+

@@ -12,5 +12,8 @@
             var initialState = states.SingleOrDefault(x => x.IsInitial);
             return initialState ?? throw new InvalidStateException("No state in the automata is marked as initial.");
         }
+
+        public static List<State> GetFinalStates(this IEnumerable<State> states) =>
+            states.Where(x => x.IsFinal).ToList();
     }
 }

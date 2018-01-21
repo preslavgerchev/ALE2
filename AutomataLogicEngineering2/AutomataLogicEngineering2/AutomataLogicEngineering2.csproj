@@ -34,6 +34,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automata\Alphabet.cs" />
+    <Compile Include="Automata\AutomataFileWriter.cs" />
     <Compile Include="Automata\AutomataGraphCreator.cs" />
+    <Compile Include="Automata\PdaAutomata.cs" />
+    <Compile Include="Automata\PdaTransition.cs" />
     <Compile Include="Automata\Transition.cs" />
     <Compile Include="Automata\FiniteAutomata.cs" />
     <Compile Include="Automata\State.cs" />
@@ -55,13 +61,26 @@
     <Compile Include="Exceptions\InvalidStateException.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StateExtensions.cs" />
+    <Compile Include="Parser\StackAlphabetParser.cs" />
+    <Compile Include="Parser\IsDfaParser.cs" />
+    <Compile Include="Parser\IsFiniteParser.cs" />
     <Compile Include="Parser\TestWordsParser.cs" />
+    <Compile Include="RegExParser\RegExParser.cs" />
     <Compile Include="Utils\Epsilon.cs" />
     <Compile Include="Parser\CommentParser.cs" />
     <Compile Include="Parser\TransitionsParser.cs" />
     <Compile Include="Parser\AlphabetParser.cs" />
     <Compile Include="Parser\AllStatesParser.cs" />
     <Compile Include="Parser\FiniteAutomataParser.cs" />
+    <Compile Include="Symbols\Operator.cs" />
+    <Compile Include="Symbols\Parenthesis.cs" />
+    <Compile Include="Symbols\ParenthesisSide.cs" />
+    <Compile Include="Symbols\Predicate.cs" />
+    <Compile Include="Symbols\Separator.cs" />
+    <Compile Include="Symbols\Symbol.cs" />
+    <Compile Include="Symbols\OperatorType.cs" />
+    <Compile Include="RegExParser\Node.cs" />
+    <Compile Include="RegExParser\NodeTreeCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutomataLogicEngineering2Form.cs">
@@ -85,6 +104,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -98,5 +118,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
