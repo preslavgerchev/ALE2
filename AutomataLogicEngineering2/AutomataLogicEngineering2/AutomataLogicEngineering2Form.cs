@@ -86,15 +86,15 @@
         private void PerformAction(Action action)
         {
             labelError.Text = string.Empty;
-            //try
-            //{
+            try
+            {
                 action();
-            //}
-            //catch (Exception ex)
-            //{
-             //   labelError.Text = ex.Message;
-            //    labelError.ForeColor = Color.Red;
-           // }
+            }
+            catch (Exception ex)
+            {
+                labelError.Text = ex.Message;
+                labelError.ForeColor = Color.Red;
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
