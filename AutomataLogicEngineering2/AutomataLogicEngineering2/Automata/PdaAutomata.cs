@@ -1,4 +1,6 @@
-﻿namespace AutomataLogicEngineering2.Automata
+﻿using System;
+
+namespace AutomataLogicEngineering2.Automata
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -55,6 +57,7 @@
             }
             return !stack.Any() && currentState.IsFinal;
         }
+        public override FiniteAutomata ToDfa() => throw new NotSupportedException("Cannot convert PDA to DFA.");
 
         private (bool CanMoveLetter, State CurrentState) GetPossibleState(
             State currentState, char letter, Stack<char> stackToUse)

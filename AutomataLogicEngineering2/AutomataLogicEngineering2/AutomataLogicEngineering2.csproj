@@ -59,7 +59,6 @@
     <Compile Include="Automata\Word.cs" />
     <Compile Include="Exceptions\InvalidCharException.cs" />
     <Compile Include="Exceptions\InvalidStateException.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StateExtensions.cs" />
     <Compile Include="Parser\StackAlphabetParser.cs" />
     <Compile Include="Parser\IsDfaParser.cs" />

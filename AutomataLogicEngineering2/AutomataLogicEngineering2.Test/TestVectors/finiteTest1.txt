@@ -1,0 +1,25 @@
+# can reach final, has two loops, one is stuck, but other one leads back to final state through B.
+alphabet: xy
+states: A,B,C,D,E,F
+final: D
+transitions:
+A,x --> B
+B,y --> C
+B,_ --> E
+E,_ --> F
+F,_ --> B
+F,y --> E
+C,x --> D
+end.
+
+finite: n
+dfa: n
+
+words:
+xyx,y
+xx,n
+xyyyyyx,y
+xyyyx,y
+xyyxy,n
+yx,n
+end.

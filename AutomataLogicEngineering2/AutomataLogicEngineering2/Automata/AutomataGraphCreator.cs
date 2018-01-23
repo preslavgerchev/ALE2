@@ -1,25 +1,13 @@
-﻿using AutomataLogicEngineering2.Extensions;
-
-namespace AutomataLogicEngineering2.Automata
+﻿namespace AutomataLogicEngineering2.Automata
 {
     using System;
     using System.Diagnostics;
     using System.IO;
+    using Extensions;
 
-    // TODO documentation.
-    /// <summary>
-    /// A static class, responsible for creating a node graph image out of a root node.
-    /// </summary>
     public static class AutomataGraphCreator
     {
-        /// <summary>
-        /// The file name of the .dot file that will be used to create the image.
-        /// </summary>
         private const string DotFileName = "AutomataGraph.dot";
-
-        /// <summary>
-        /// The file name of the image where the node graph will be created.
-        /// </summary>
         private const string ImageFileName = "AutomataGraph.png";
         
         public static string CreateNodeGraphImage(FiniteAutomata automata)
@@ -28,11 +16,6 @@ namespace AutomataLogicEngineering2.Automata
             return CreateAutomataGraph();
         }
 
-        /// <summary>
-        /// Creates a .dot file for the given <paramref name="rootNode"/> that contains all connections in the
-        /// node graph.
-        /// </summary>
-        /// <param name="rootNode">The root node of the node tree.</param>
         private static void PrepareDotFile(FiniteAutomata automata)
         {
             using (var writer = new StreamWriter($"../../../{DotFileName}", false))
@@ -45,11 +28,6 @@ namespace AutomataLogicEngineering2.Automata
             }
         }
 
-        /// <summary>
-        /// Creates the node graph image with file name of <see cref="ImageFileName"/>, using the .dot file with file name 
-        /// of <see cref="DotFileName"/> and returns the full path of where the image is located.
-        /// </summary>
-        /// <returns></returns>
         private static string CreateAutomataGraph()
         {
             var relativeFolderPath = Path.GetFullPath(
@@ -64,12 +42,6 @@ namespace AutomataLogicEngineering2.Automata
             return relativeFolderPath + ImageFileName;
         }
 
-        /// <summary>
-        /// Writes the connection between the given <paramref name="node"/> and its children, using
-        /// the <paramref name="writer"/>.
-        /// </summary>
-        /// <param name="writer">The text writer.</param>
-        /// <param name="node">The node.</param>
         private static void WriteStates(TextWriter writer, FiniteAutomata automata)
         {
             writer.WriteLine($"\"\" [shape=none]");
@@ -79,12 +51,6 @@ namespace AutomataLogicEngineering2.Automata
             }
         }
 
-        /// <summary>
-        /// Writes the connection between the given <paramref name="node"/> and its children, using
-        /// the <paramref name="writer"/>.
-        /// </summary>
-        /// <param name="writer">The text writer.</param>
-        /// <param name="node">The node.</param>
         private static void WriteTransitions(TextWriter writer, FiniteAutomata automata)
         {
             writer.WriteLine($"\"\" -> \"{automata.States.GetInitialState().StateName}\"");

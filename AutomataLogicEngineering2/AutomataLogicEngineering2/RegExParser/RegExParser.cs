@@ -3,9 +3,6 @@
     using System.Collections.Generic;
     using Automata;
 
-    /// <summary>
-    /// A static class, responsible for parsing a given string input in a list of symbols.
-    /// </summary>
     public static class RegExParser
     {
         public static FiniteAutomata GenerateAutomataForRegex(string input)

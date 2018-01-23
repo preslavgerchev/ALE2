@@ -7,54 +7,28 @@
     using Extensions;
     using Symbols;
 
-    /// <summary>
-    /// A single node, representing a node in the node tree. The node may contain children 
-    /// and may have a parent.
-    /// </summary>
     public sealed class Node
     {
         private static int idGenerator;
 
-        /// <summary>
-        /// Gets the symbol of the node.
-        /// </summary>
         public Symbol Symbol { get; }
 
-        /// <summary>
-        /// Gets the parent of the node.
-        /// </summary>
         public Node Parent { private set; get; }
 
-        /// <summary>
-        /// Gets the children of the node.
-        /// </summary>
         public List<Node> Children { get; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Node"/> class.
-        /// </summary>
-        /// <param name="symbol">The symbol to initialize with.</param>
         public Node(Symbol symbol)
         {
             this.Symbol = symbol;
             this.Children = new List<Node>();
         }
 
-        /// <summary>
-        /// Adds a child node to the children list.
-        /// </summary>
-        /// <param name="node">The child node to add.</param>
         public void AddChild(Node node)
         {
             this.Children.Add(node);
             node.Parent = this;
         }
 
-        /// <summary>
-        /// Recursively applies all operations on the node and its children. This method should
-        /// always be called on the root node to get correct results.
-        /// </summary>
-        /// <returns>The end value of the entire proposional input.</returns>
         public List<State> Apply()
         {
             if (this.Symbol is Predicate)
@@ -83,13 +57,6 @@
             return new List<State>() { state, endState };
         }
 
-        /// <summary>
-        /// Applies the current node's connective on two values and returns the outcome.
-        /// </summary>
-        /// <param name="firstValue">The first value.</param>
-        /// <param name="secondValue">The second value. Has default value since the 
-        /// connective type may be a NOT (~) in which case only one value is needed.</param>
-        /// <returns>The result of the connective, applied to the provided values.</returns>
         private List<State> PrivateApply(
             List<State> firstOperatorStates, 
             List<State> secondOperatorStates,

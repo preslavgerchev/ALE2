@@ -1,0 +1,23 @@
+# has epsilon-only cycle.
+
+alphabet: x
+states: A,B,C,D,E,F
+final: D
+transitions:
+A,x --> B
+B,x --> C
+B,_ --> E
+E,_ --> F
+F,_ --> B
+C,x --> D
+end.
+
+finite: y
+dfa: n
+
+words:
+xxx,y
+x,n
+xx,n
+xxxx,n
+end.

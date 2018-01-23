@@ -1,0 +1,23 @@
+# has letter-cycle and two final loops.
+
+alphabet: x
+states: A,B,C,D,E
+final: B,E
+transitions:
+A,x --> B
+B,x --> C
+C,x --> D
+D,x --> E
+D,x --> C
+end.
+
+finite: n
+dfa: n
+
+words:
+xxx,n
+x,y
+xx,n
+xxxx,y
+xxxxxxxxxxxxxx,y
+end.

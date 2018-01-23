@@ -13,6 +13,7 @@
             this.AlphabetChars = alphabetChars
                 .Select(x => x.ParseChar())
                 .Where(x => char.IsLetter(x) && x != Epsilon.Letter)
+                .Distinct()
                 .ToList();
         }
 

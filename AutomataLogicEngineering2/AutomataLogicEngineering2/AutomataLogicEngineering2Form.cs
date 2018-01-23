@@ -45,9 +45,13 @@
             this.PerformAction(() =>
             {
                 var regex = this.regexTb.Text;
+                if (string.IsNullOrEmpty(regex) || string.IsNullOrWhiteSpace(regex))
+                {
+                    throw new Exception("Expresson cannot be empty");
+                }
                 this.automata = RegExParser.RegExParser.GenerateAutomataForRegex(regex);
                 this.DrawAutomata();
-                AutomataFileWriter.WriteToFile(this.automata);
+                AutomataFileWriter.WriteToFile(this.automata, "RegExpGenerated");
             });
         }
 
@@ -82,15 +86,25 @@
         private void PerformAction(Action action)
         {
             labelError.Text = string.Empty;
-            try
-            {
+            //try
+            //{
                 action();
-            }
-            catch (Exception ex)
+            //}
+            //catch (Exception ex)
+            //{
+             //   labelError.Text = ex.Message;
+            //    labelError.ForeColor = Color.Red;
+           // }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.PerformAction(() =>
             {
-                labelError.Text = ex.Message;
-                labelError.ForeColor = Color.Red;
-            }
+                this.automata = this.automata.ToDfa();
+                this.DrawAutomata();
+                AutomataFileWriter.WriteToFile(this.automata, "DFAConverted");
+            });
         }
     }
 }

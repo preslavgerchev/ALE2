@@ -1,0 +1,19 @@
+# reachable final that has a cycle behind it, thus should be ignored.
+alphabet: x
+states: A,B,C,D,E
+final: C
+transitions:
+A,x --> B
+B,x --> C
+C,x --> D
+D,x --> E
+E,x --> D
+end.
+
+finite: y
+dfa: y
+
+words:
+xx,y
+xxx,n
+end.

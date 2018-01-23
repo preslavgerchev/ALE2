@@ -46,6 +46,7 @@
             this.ShouldBeDfa = shouldBeDfa;
             this.ShouldBeFinite = shouldBeFinite;
             this.IsDfa = this.States.All(x => x.IsDfa(this.Alphabet));
+            this.FiniteWords = new List<Word>();
             this.DetermineInfiniteAndWords();
         }
 
@@ -135,6 +136,7 @@
             // Starting from the initial state try to find a loop inside the terminating states.
             this.IsInfinite = terminatingStates.GetInitialState()
                 .HasLoop(terminatingStates, new List<State>(), this.IsNdfa);
+            
             // If finite, find all words.
             if (this.IsFinite) this.GetFiniteWords(terminatingStates);
         }
@@ -148,6 +150,10 @@
 
         private void GetTerminatingStates(List<State> visitedStates, List<State> statesThatReach, State targetEndState)
         {
+            // Note that I have decided to implement getting states that reach final states a little bit different. I start
+            // from the final state and check if there are any states that have a transition to that state. Then for that retrieved set p
+            // I check if there are any states that have transition to any state in p. This goes on until either there are no more states
+            // to visit or until the full set of terminating states is retrieved.
             if (visitedStates.Contains(targetEndState)) return;
             visitedStates.Add(targetEndState);
             var reachableStates = this.States
@@ -175,5 +181,100 @@
                 currentWordBuilder: new StringBuilder());
             this.FiniteWords = words.Distinct().Select(x => new Word(x)).ToList();
         }
+
+        public virtual FiniteAutomata ToDfa()
+        {
+            if (this.IsDfa) return this;
+
+            // A dictionary to store the combined state and it's individual states.
+            var currentStatesDict = new Dictionary<State, List<State>>();
+            var notProcessedYetStates = new List<State>();
+            var finishedStates = new List<State>();
+
+            // First get the epsilon closure. Then make a single state and add it to the to be processed states.
+            var initialEpsilonClosure = this.GetPossibleEpsilonStates(new List<State>() {this.States.GetInitialState()})
+                .OrderBy(x => x.StateName)
+                .ToList();
+            var initialDfaState =
+                this.MakeSingleState(initialEpsilonClosure, true, initialEpsilonClosure.Any(x => x.IsFinal));
+            notProcessedYetStates.Add(initialDfaState);
+            currentStatesDict.Add(initialDfaState, initialEpsilonClosure);
+            while (notProcessedYetStates.Any())
+            {
+                // Always process the first one. We know that there is at least 1 because of the check in the while loop.
+                var toBeProcessed = notProcessedYetStates[0];
+                var currentStates = currentStatesDict[toBeProcessed];
+                foreach (var letter in this.Alphabet.AlphabetChars)
+                {
+                    // 1. Get all the possible states reachable by the letter. If any then also get the epsilon closures that can be reached
+                    // from these states. Note the ordering by name to ensure consistency and to avoid scenarios where {2,3} is considered a different
+                    // state than {3,2}.
+                    var states = this.GetPossibleStates(currentStates, letter);
+                    if (states.Any())
+                    {
+                        var statesAndEpsilonClosure = this.GetPossibleEpsilonStates(states)
+                            .OrderBy(x => x.StateName)
+                            .ToList();
+                        // Note that we mark the combined state as final as long as any of the states in the set are final.
+                        var newState = this.MakeSingleState(
+                            statesAndEpsilonClosure, false, statesAndEpsilonClosure.Any(x => x.IsFinal));
+                        if (toBeProcessed.StateName == "B")
+                        {
+                            var z = false;
+                        }
+                        // Note that we can check if the new state is not actually the same one - in case of a self-loop.
+                        newState = newState.Equals(toBeProcessed) ? toBeProcessed : newState;
+                        // If the resulting state has already been processed -> assign it to the variable. Else add it to the to be processed list.
+                        if (finishedStates.Contains(newState))
+                        {
+                            newState = finishedStates.Single(x => x.Equals(newState));
+                        }
+                        else if (!notProcessedYetStates.Contains(newState))
+                        {
+                            notProcessedYetStates.Add(newState);
+                            currentStatesDict.Add(newState, statesAndEpsilonClosure);
+                        }
+                        toBeProcessed.AddTransition(new Transition(letter, toBeProcessed, newState));
+                    }
+                    // If there is no states reachable by letter that means we need a sink. First verify if one doesn't already exist. If it does, add a transition
+                    // to it. Else create a new sink, make a self-transition for each letter to also ensure the sink is considered DFA and then add it directly
+                    // to the finished states list.
+                    else
+                    {
+                        var sink = finishedStates.SingleOrDefault(x => x.IsSink);
+                        if (sink == null)
+                        {
+                            sink = new State("Sink", false, false, true);
+                            foreach (var sinkLetter in this.Alphabet.AlphabetChars)
+                            {
+                                sink.AddTransition(new Transition(sinkLetter, sink, sink));
+                            }
+                            finishedStates.Add(sink);
+                        }
+                        toBeProcessed.AddTransition(new Transition(letter, toBeProcessed, sink));
+                    }
+                }
+                foreach (var finished in finishedStates)
+                {
+                    // Make sure to update existing references to keep the transitions up to date.
+                    var transitionsTo =
+                        finished.Transitions.Where(x => x.TransitionTo.StateName == toBeProcessed.StateName);
+                    foreach (var trans in transitionsTo)
+                    {
+                        trans.TransitionTo = toBeProcessed;
+                    }
+                }
+                // Finally add the processed state to the final ones and remove it from the to be processed. Also clean up the dictionary.
+                finishedStates.Add(toBeProcessed);
+                notProcessedYetStates.Remove(toBeProcessed);
+                currentStatesDict.Remove(toBeProcessed);
+            }
+            var automata = new FiniteAutomata(this.Comment, this.Alphabet, new List<State>(finishedStates), this.TestWords, true, false);
+            automata.AcceptWords();
+            return automata;
+        }
+
+        private State MakeSingleState(List<State> states, bool initial = false, bool isFinal = false) =>
+            new State(string.Join("", states.Select(x => x.StateName)), initial, isFinal);
     }
 }

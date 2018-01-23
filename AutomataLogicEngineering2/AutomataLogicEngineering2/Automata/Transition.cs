@@ -11,7 +11,7 @@
 
         public State TransitionFrom { get; }
 
-        public State TransitionTo { get; }
+        public State TransitionTo { get; set; }
 
         public Transition(char transitionChar, State transitionFrom, State transitionTo)
         {

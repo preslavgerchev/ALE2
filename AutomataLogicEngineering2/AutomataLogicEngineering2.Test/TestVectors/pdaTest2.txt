@@ -1,0 +1,24 @@
+# must always have amount of b equal to a's or b equal to a + 1 if B->C is taken where a is odd.
+alphabet: ab
+stack: x
+states: A,B,C
+final: C
+
+transitions:
+A,a [_,x] --> B
+B,_ [_,x] --> C
+B,a [_,x] --> A
+C,b [x,_] --> C
+A,_       --> C
+end.
+
+finite: n
+dfa: n
+
+words:
+aabb,y
+aaabbb,n
+aaabbbb,y
+aaaabbbb,y
+aaaaabbbbbb,y
+end.

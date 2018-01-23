@@ -1,0 +1,23 @@
+#has epsilon-only pda transition to final.
+
+alphabet: abc
+stack: x
+states: A,B,C
+final: C
+transitions:
+A,a [_,x] --> B
+B,b [_,x] --> C
+C,c [x,_] --> C
+A,_  --> C
+end.
+
+
+finite:n
+dfa:n
+
+words:
+,y
+abc,n
+abcc,y
+c,n
+end.

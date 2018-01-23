@@ -6,17 +6,9 @@
     using Symbols;
     using Utils;
 
-    /// <summary>
-    /// A static class, responsible for creating a tree out of a given string input.
-    /// </summary>
     public static class NodeTreeCreator
     {
-        /// <summary>
-        /// Parses, validates and converts the input into a node tree, returning the 
-        /// root node of the tree.
-        /// </summary>
-        /// <param name="input">The string input.</param>
-        /// <returns>The root node of the tree.</returns>
+       
         public static Node Initialize(string input)
         {
             var symbols = NodeTreeCreator.ParseToSymbols(input);
@@ -24,11 +16,6 @@
             return NodeTreeCreator.CreateTree(symbols);
         }
 
-        /// <summary>
-        /// Creates a tree, given the parsed input as a list of symbols.
-        /// </summary>
-        /// <param name="input">The list of symbols.</param>
-        /// <returns>The root node of the tree.</returns>
         private static Node CreateTree(List<Symbol> input)
         {
             Node parentNode = null;
@@ -74,22 +61,12 @@
             return parentNode;
         }
 
-        /// <summary>
-        /// Parses the given string input to a list of <see cref="Symbol"/> instances.
-        /// </summary>
-        /// <param name="input">The string input.</param>
-        /// <returns>A list of <see cref="Symbol"/> instances.</returns>
         private static List<Symbol> ParseToSymbols(string input)
         {
             var allChars = new Regex("\\s+").Replace(input, string.Empty).ToCharArray();
             return allChars.Select(ToSymbol).ToList();
         }
 
-        /// <summary>
-        /// Parses a given char to its corresponding symbol.
-        /// </summary>
-        /// <param name="inputChar">The char to parse.</param>
-        /// <returns>A symbol that corresponds to the given char.</returns>
         private static Symbol ToSymbol(char inputChar)
         {
             switch (inputChar)
